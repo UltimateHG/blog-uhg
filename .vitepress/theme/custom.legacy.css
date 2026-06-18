@@ -1,64 +1,26 @@
 /* ============================================================
    uhg's corner — custom minimal theme
-   Palette: Catppuccin Latte (light) / legacy dark scheme (dark, default).
-   The full original stylesheet is preserved in custom.legacy.css.
+   Ported from the original handmade-blog styles (dark, simplistic).
    ============================================================ */
 
 @import url('https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/css/SpoqaHanSansNeo.css');
 
 :root {
-  /* Catppuccin Latte (light) */
-  --ctp-base: #eff1f5;
-  --ctp-mantle: #e6e9ef;
-  --ctp-crust: #dce0e8;
-  --ctp-text: #4c4f69;
-  --ctp-subtext0: #6c6f85;
-  --ctp-overlay1: #8c8fa1;
-  --ctp-overlay0: #9ca0b0;
-  --ctp-surface1: #bcc0cc;
-  --ctp-surface0: #ccd0da;
-  --ctp-accent: #1e66f5;
-
-  /* Semantic tokens — resolve against --ctp-* above and auto-swap when
-     html.dark overrides the palette below. */
-  --bg: var(--ctp-base);
-  --text: #3d3f54; /* Catppuccin Latte text (#4c4f69) darkened a bit more */
-  --meta: var(--ctp-overlay1);
-  --code-inline-bg: var(--ctp-surface0);
-  --code-block-bg: var(--ctp-mantle);
-  --code-fg: #4c4f69; /* default code text (light): catppuccin-latte fg */
-  --border: var(--ctp-text);
-  --border-dim: var(--ctp-surface1);
-  --blockquote-border: var(--ctp-overlay0);
-  --btn-hover: var(--ctp-surface1);
+  --bg: #18191A;
+  --text: #E4E5E6;
+  --meta: #9e9e9e;
+  --code-inline-bg: #363636;
+  --border: #E4E5E6;
+  --border-dim: #3a3b3c;
+  --blockquote-border: #666;
+  --btn-hover: #152238;
 
   --font-sans: 'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'Consolas', 'Monaco', 'Ubuntu Mono', 'Andale Mono', monospace;
   --font-serif: 'Noto Serif KR', 'Times New Roman', serif;
 
   --content-width: 1080px;
-  --home-width: 560px;
   --header-h: 90px;
-}
-
-/* Dark mode (default) = the original pre-Catppuccin "legacy" scheme, with the
-   body text very slightly darkened. Light mode stays Catppuccin Latte. */
-html.dark {
-  --bg: #18191A;
-  --text: #d8d9da;           /* legacy #E4E5E6, very slightly darkened */
-  --meta: #9e9e9e;
-  --code-inline-bg: #363636;
-  --code-block-bg: #282a36;  /* Dracula surface */
-  --code-fg: #d8d9da;        /* default code text (dark): body off-white */
-  --border: #E4E5E6;
-  --border-dim: #3a3b3c;
-  --blockquote-border: #666666;
-  --btn-hover: #152238;
-
-  /* helper colors referenced directly by component rules */
-  --ctp-surface0: #2b2c2d;   /* subtle toggle-hover surface */
-  --ctp-crust: #000000;      /* project thumbnail placeholder backdrop */
-  --ctp-accent: #8ab4f8;     /* toggle / social icon hover accent */
 }
 
 * { box-sizing: border-box; }
@@ -71,50 +33,9 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 a { color: inherit; }
-
-/* ---------- theme toggle (top-right) ---------- */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  margin-left: 4px;
-  background: transparent;
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  border-radius: 6px;
-  line-height: 0;
-}
-.theme-toggle:hover { background-color: var(--ctp-surface0); color: var(--ctp-accent); }
-.theme-toggle svg { width: 18px; height: 18px; }
-
-/* ---------- header separator + social links ---------- */
-.header-sep {
-  color: var(--border-dim);
-  user-select: none;
-  font-size: 16px;
-  line-height: 1;
-}
-.social-links {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.social-links a {
-  display: inline-flex;
-  align-items: center;
-  color: var(--text);
-  line-height: 0;
-}
-.social-links a:hover { color: var(--ctp-accent); }
-.social-links svg { width: 18px; height: 18px; }
 
 /* ---------- fixed header / nav ---------- */
 #top-container {
@@ -147,12 +68,6 @@ a { color: inherit; }
   margin-top: 2px;
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px 10px;
-}
 .nav-links {
   font-size: 14px;
   display: flex;
@@ -181,13 +96,12 @@ a { color: inherit; }
 }
 
 /* ---------- home ---------- */
-.home { max-width: var(--home-width); margin: 0 auto; }
 .home p { font-size: 16px; line-height: 200%; margin: 0 0 4px; }
 .home .home-links {
   margin-top: 36px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px;
 }
 .home .home-links a {
@@ -259,7 +173,7 @@ a { color: inherit; }
   font-size: 0.92em;
 }
 
-/* code blocks (Shiki dual theme: catppuccin-latte / catppuccin-mocha) */
+/* code blocks (Shiki / dracula) */
 .post-content div[class*='language-'] {
   position: relative;
   margin: 22px 0;
@@ -274,20 +188,10 @@ a { color: inherit; }
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.6;
-  /* Dracula surface (dark) / Mantle (light) — theme-aware via --code-block-bg */
-  background-color: var(--code-block-bg);
-  /* --code-fg is the default for un-highlighted text (formatless blocks);
-     highlighted tokens override via --shiki-light / --shiki-dark. */
-  color: var(--shiki-light, var(--code-fg));
+  /* Dracula code surface (default-theme var isn't present in this custom theme) */
+  background-color: #282a36;
+  color: #f8f8f2;
 }
-/* Light tokens come from Shiki catppuccin-latte; dark tokens from dracula.
-   Fall back to --code-fg so plain text follows the theme too. */
-html.dark .post-content div[class*='language-'] pre,
-html.dark .post-content pre.shiki {
-  color: var(--shiki-dark, var(--code-fg));
-}
-.post-content .shiki span { color: var(--shiki-light, var(--code-fg)); }
-html.dark .post-content .shiki span { color: var(--shiki-dark, var(--code-fg)); }
 .post-content div[class*='language-'] code {
   font-family: var(--font-mono);
   background: transparent;
@@ -345,7 +249,7 @@ html.dark .post-content .shiki span { color: var(--shiki-dark, var(--code-fg)); 
   transition: border-color .15s ease;
 }
 .project-card:hover { border-color: var(--border); }
-.project-card .thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-dim); background: var(--ctp-crust); }
+.project-card .thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-dim); background: #000; }
 .project-card .card-body { padding: 12px 14px 16px; }
 .project-card .card-title { font-size: 16px; font-weight: 700; margin: 0; }
 .project-card .card-subtitle { font-size: 13px; color: var(--meta); margin: 4px 0 0; }

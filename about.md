@@ -3,17 +3,23 @@ layout: page
 title: About
 ---
 
-I am a cs/infosec student currently residing in Singapore. I dump all cs-related things I find interesting here, as well as all my ctf writeups. I also occasionally do blogposts.
+## About
+
+A CS student currently residing in Singapore, but primarily focusing on cybersec. Dumping all cs/cybersec-related things I find interesting here, including writeups on CTFs, CVEs and occasional blog posts.
+
+I primarily do offensive security with a focus on vulnerability research, but I am generally interested in all things offsec, as well as some CTI/malware analysis. I sometimes post on [twitter/x](https://x.com/ultimat3hg).
+
+I've done research on windows kernel, IoT and (a little) Adobe Acrobat.
+
+## CTF stuff
+
+Mainly do pwn/re/misc when I do play. I don't play much CTFs nowadays (see: [relevant post](https://blog.kek.cx/posts/slop-is-all-you-need/)).
 
 I am currently a member of:
 
-- NUS Greyhats
-- Friendly Maltese Citizens (FMC/ITDWWGMFNY)
-- 404Unfound `[honorary]`
-- QnQSec `[honorary]`
-- HATS SG `[inactive]`
-- TeaMSG `[inactive]`
-
-I don't play much CTFs nowadays, but nonetheless I am open to team invites, feel free to message me on twitter, or any other platform you might find me on :)
-
-My [linktree](https://linktr.ee/ultimatehg/)
+* NUS Greyhats
+* Friendly Maltese Citizens (FMC/ITDWWGMFNY)
+* 404Unfound `[honorary]`
+* QnQSec `[honorary]`
+* HATS SG `[inactive]`
+* TeaMSG `[inactive]`
