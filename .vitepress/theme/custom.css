@@ -92,7 +92,7 @@ a { color: inherit; }
 #main-container {
   max-width: var(--content-width);
   margin: var(--header-h) auto 0;
-  padding: 20px 30px 80px;
+  padding: 20px 15px 80px;
 }
 
 /* ---------- home ---------- */
