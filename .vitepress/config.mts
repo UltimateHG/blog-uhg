@@ -64,6 +64,11 @@ export default defineConfig({
     theme: 'dracula',
     image: { lazyLoading: true },
     lineNumbers: false,
+    // Keep ":)" and friends as literal text — disable markdown-it-emoji's
+    // emoticon/shortcode conversion (it was turning ":)" into 😃).
+    config(md) {
+      md.core.ruler.disable('emoji', true)
+    },
   },
 
   sitemap: { hostname: 'https://blog.uhg.sg' },

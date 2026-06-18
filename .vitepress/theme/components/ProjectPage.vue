@@ -17,8 +17,8 @@ const { frontmatter } = useData()
 
     <div class="post-content"><Content /></div>
 
-    <div class="back-button-wrap">
-      <a class="back-button" href="/project/" title="All Projects">🔥</a>
+    <div class="back-link-wrap">
+      <a class="back-link" href="/project/">← All Projects</a>
     </div>
   </article>
 </template>

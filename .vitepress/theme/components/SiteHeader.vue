@@ -5,11 +5,11 @@ import { useData } from 'vitepress'
 const { page } = useData()
 
 const links = [
-  { href: '/about', label: '👀 About' },
-  { href: '/project/', label: '🔥 Projects' },
-  { href: '/blog/', label: '🧠 My Thoughts' },
-  { href: '/cve/', label: '🐛 My CVEs' },
-  { href: '/writeup/', label: '📚 Writeups' },
+  { href: '/about', label: 'About' },
+  { href: '/project/', label: 'Projects' },
+  { href: '/blog/', label: 'My Thoughts' },
+  { href: '/cve/', label: 'My CVEs' },
+  { href: '/writeup/', label: 'Writeups' },
 ]
 
 const path = computed(() => '/' + page.value.relativePath)

@@ -11,8 +11,8 @@ Welcome to my blog where I post all things cs-related (and occasionally blog pos
 Generally I dump all my security research and CTF writeups here. I also post some of my cs projects here. Enjoy :)
 
 <div class="home-links">
-  <a href="/writeup/">📚 Writeups</a>
-  <a href="/cve/">🐛 My CVEs</a>
-  <a href="/blog/">🧠 My Thoughts</a>
-  <a href="/project/">🔥 Projects</a>
+  <a href="/project/">Projects</a>
+  <a href="/blog/">My Thoughts</a>
+  <a href="/cve/">My CVEs</a>
+  <a href="/writeup/">Writeups</a>
 </div>

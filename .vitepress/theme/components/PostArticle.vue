@@ -7,10 +7,10 @@ import { data as writeup } from '../../data/writeup.data'
 
 const { frontmatter, page } = useData()
 
-const meta: Record<string, { label: string; emoji: string; base: string; set: any[] }> = {
-  blog: { label: 'My Thoughts', emoji: '🧠', base: '/blog/', set: blog },
-  cve: { label: 'My CVEs', emoji: '🐛', base: '/cve/', set: cve },
-  writeup: { label: 'Writeups', emoji: '📚', base: '/writeup/', set: writeup },
+const meta: Record<string, { label: string; base: string; set: any[] }> = {
+  blog: { label: 'My Thoughts', base: '/blog/', set: blog },
+  cve: { label: 'My CVEs', base: '/cve/', set: cve },
+  writeup: { label: 'Writeups', base: '/writeup/', set: writeup },
 }
 
 const category = computed(() => page.value.relativePath.split('/')[0])
@@ -48,8 +48,8 @@ const older = computed(() =>
       <a v-if="older" :href="older.url" class="nav-older"><span class="label">Older →</span>{{ older.title }}</a>
     </nav>
 
-    <div v-if="info" class="back-button-wrap">
-      <a class="back-button" :href="info.base" :title="'All ' + info.label">{{ info.emoji }}</a>
+    <div v-if="info" class="back-link-wrap">
+      <a class="back-link" :href="info.base">← All {{ info.label }}</a>
     </div>
   </article>
 </template>
