@@ -78,6 +78,37 @@ const REWRITE_TO_SOURCE: Record<string, string> = Object.fromEntries(
   Object.entries(REWRITES).map(([src, dst]) => [dst, src]),
 )
 
+// Old handmade-blog /article/<id>.html URLs -> new clean paths. Kept explicit
+// (not derived from filename prefixes) because blog/cve filenames are
+// renumbered per-category, so a file's prefix no longer equals its old global id.
+const LEGACY_ARTICLE_REDIRECTS: Record<number, string> = {
+  0: '/writeup/redpwn-coffer-overflow',
+  1: '/writeup/pdfium-issue-933163',
+  2: '/writeup/acrobat-fuzzing-part-1',
+  3: '/writeup/acrobat-fuzzing-part-2',
+  4: '/writeup/stackctf-android-part-1',
+  5: '/writeup/stackctf-android-part-2',
+  6: '/writeup/stackctf-android-part-3',
+  7: '/writeup/stackctf-android-part-4',
+  8: '/writeup/stackctf-osint-2',
+  9: '/writeup/acrobat-fuzzing-part-3',
+  10: '/writeup/acrobat-fuzzing-part-4',
+  11: '/writeup/windows-fuzzing-part-1',
+  12: '/writeup/windows-fuzzing-part-2',
+  13: '/cve/cve-2021-33760',
+  14: '/writeup/greyhats-welcome-ctf-2023',
+  15: '/writeup/ecsc-2023-knife-party',
+  16: '/writeup/ecsc-2023-flux-capacitor',
+  17: '/writeup/ecsc-2023-lady-luck',
+  18: '/blog/ecsc-2023-recap',
+  19: '/blog/gcc-2024-recap',
+  20: '/writeup/hackbash-2024-authors-writeup',
+  21: '/writeup/windows-heap-exploration',
+  22: '/writeup/greyctf-2024-quals-authors-writeup',
+  23: '/writeup/cve-2023-28252',
+  24: '/cve/cve-2025-52689',
+}
+
 function redirectStub(target: string) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="https://blog.uhg.sg${target}"><meta http-equiv="refresh" content="0; url=${target}"><title>Redirecting…</title></head><body><p>Redirecting to <a href="${target}">${target}</a>…</p></body></html>`
 }
@@ -152,12 +183,9 @@ export default defineConfig({
       fs.mkdirSync(path.dirname(file), { recursive: true })
       fs.writeFileSync(file, redirectStub(target))
     }
-    // posts: old /article/<globalId>.html -> /<cat>/<slug>
-    for (const cat of ['blog', 'cve', 'writeup']) {
-      for (const p of listPosts(cat)) {
-        if (isDraft(cat, p.file)) continue
-        write(`article/${p.id}.html`, `/${cat}/${p.slug}`)
-      }
+    // posts: old /article/<globalId>.html -> new clean path (explicit map)
+    for (const [id, target] of Object.entries(LEGACY_ARTICLE_REDIRECTS)) {
+      write(`article/${id}.html`, target)
     }
     // projects: old /work/<index>.html -> /project/<slug>
     for (const p of listPosts('project')) {
