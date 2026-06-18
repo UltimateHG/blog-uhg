@@ -19,7 +19,7 @@
   --font-mono: 'Consolas', 'Monaco', 'Ubuntu Mono', 'Andale Mono', monospace;
   --font-serif: 'Noto Serif KR', 'Times New Roman', serif;
 
-  --content-width: 800px;
+  --content-width: 1200px;
   --header-h: 90px;
 }
 
@@ -92,7 +92,7 @@ a { color: inherit; }
 #main-container {
   max-width: var(--content-width);
   margin: var(--header-h) auto 0;
-  padding: 20px 15px 80px;
+  padding: 20px 30px 80px;
 }
 
 /* ---------- home ---------- */
