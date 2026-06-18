@@ -1,0 +1,15 @@
+{
+  "name": "blog-uhg",
+  "version": "1.0.0",
+  "description": "uhg's corner — security research, CVEs, CTF writeups, projects",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}
