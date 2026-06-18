@@ -2,6 +2,17 @@ import { defineConfig } from 'vitepress'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import draculaTheme from '@shikijs/themes/dracula'
+
+// Dracula for dark-mode code, but with its default "white" foreground (#f8f8f2)
+// remapped to the body off-white (#d8d9da) so code text matches the rest of dark mode.
+const draculaOffWhite = {
+  ...(draculaTheme as any),
+  colorReplacements: {
+    ...((draculaTheme as any).colorReplacements ?? {}),
+    '#f8f8f2': '#d8d9da',
+  },
+}
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const CATEGORIES = ['blog', 'cve', 'writeup', 'project']
@@ -119,6 +130,8 @@ export default defineConfig({
   description: 'vulnerability research, exploits and CVEs, CTF writeups',
   titleTemplate: ":title — uhg's corner",
   cleanUrls: true,
+  // Dark (Mocha) by default; the toggle still lets users switch to light (Latte).
+  appearance: 'dark',
   srcExclude: DRAFTS,
   rewrites: REWRITES,
 
@@ -163,7 +176,7 @@ export default defineConfig({
   },
 
   markdown: {
-    theme: 'dracula',
+    theme: { light: 'catppuccin-latte', dark: draculaOffWhite },
     image: { lazyLoading: true },
     lineNumbers: false,
     // Keep ":)" and friends as literal text — disable markdown-it-emoji's
@@ -174,6 +187,14 @@ export default defineConfig({
   },
 
   sitemap: { hostname: 'https://blog.uhg.sg' },
+
+  // Dev-only: poll for file changes so HMR works on WSL /mnt (Windows drvfs)
+  // mounts, where inotify events don't fire. No effect on the production build.
+  vite: {
+    server: {
+      watch: { usePolling: true, interval: 300 },
+    },
+  },
 
   // Generate static redirect stubs preserving the old live URLs.
   async buildEnd(siteConfig) {

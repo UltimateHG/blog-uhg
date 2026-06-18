@@ -4,11 +4,11 @@ title: uhg's corner
 titleTemplate: false
 ---
 
-Hi, I am uhg.
+Hi, I'm uhg.
 
-Welcome to my blog where I post all things cs-related (and occasionally blog posts of my various experiences).
+Welcome to the blog where I dump all my projects, writeups and some occasional blog posts. All my opinions (if any) are my own.
 
-Generally I dump all my security research and CTF writeups here. I also post some of my cs projects here. Enjoy :)
+Enjoy :>
 
 <div class="home-links">
   <a href="/project/">Projects</a>

@@ -4,21 +4,25 @@ subtitle: "GCC 2024 Project"
 thumbnail: "https://static.maltego.com/cdn/Maltego%20Branding/Maltego%20logo%20-%20horizontal/Maltego-Logo-Horizontal-Greyblue.png"
 repo: "https://github.com/UltimateHG/VisualizerPlusPlus"
 ---
-Link to repo: https://github.com/UltimateHG/VisualizerPlusPlus
+---
 
+## [Repo Link](https://github.com/UltimateHG/VisualizerPlusPlus)
 
+---
 
-## Foreword
+This was a mini project done within a week during Global Cybersecurity Camp 2024. Updates are not guaranteed (will never be updated).
 
-This was a project done within a week during Global Cybersecurity Camp 2024. It will be FOSS and updates are not guaranteed.
+---
 
-## Instructions
+### Instructions
 
 Have Docker & Docker Compose installed. (Docker Desktop is enough to have these two)
 
 This plugin allows you to import phone/message logs as CSVs and will show you the connection between them.
 
-## Build 
+---
+
+### Build 
 
 ```bash 
 git clone https://github.com/UltimateHG/gcc2024_project/ && cd gcc2024_project
