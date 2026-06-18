@@ -105,13 +105,15 @@ export default defineConfig({
     const isPost = /^(blog|cve|writeup)\//.test(rel) && !rel.endsWith('index.md')
     const isProject = rel.startsWith('project/') && !rel.endsWith('index.md')
 
-    const { image: firstImg, excerpt } = pageMeta(rel)
+    const { excerpt } = pageMeta(rel)
     const title = fm.title || "uhg's corner"
     const desc = fm.subtitle || fm.description || excerpt || DEFAULT_DESC
     const url = SITE + cleanPath(rel)
 
-    let image = fm.image || (isProject ? fm.thumbnail : firstImg) || DEFAULT_IMAGE
-    if (typeof image === 'string' && image.startsWith('/')) image = SITE + image
+    // All share cards use the site default image for now (per-page title and
+    // description still differ). To re-enable per-page images, derive from
+    // fm.image / project thumbnail / first in-post image here.
+    const image = DEFAULT_IMAGE
 
     pageData.frontmatter.head ??= []
     pageData.frontmatter.head.push(
