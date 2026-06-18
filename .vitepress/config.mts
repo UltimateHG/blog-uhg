@@ -6,6 +6,42 @@ import { fileURLToPath } from 'node:url'
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const CATEGORIES = ['blog', 'cve', 'writeup', 'project']
 
+const SITE = 'https://blog.uhg.sg'
+const DEFAULT_DESC = 'vulnerability research, exploits and CVEs, CTF writeups'
+const DEFAULT_IMAGE = 'https://i.ibb.co/4pRxk6j/trashthumbsup-c-websitethumb.png'
+
+// Pull a representative image + excerpt out of a source markdown file.
+function pageMeta(relativePath: string) {
+  // pageData.relativePath is the rewritten path (no NNNN_ prefix); map back to
+  // the real source file before reading.
+  const source = REWRITE_TO_SOURCE[relativePath] || relativePath
+  let raw = ''
+  try {
+    raw = fs.readFileSync(path.join(ROOT, source), 'utf8')
+  } catch {
+    return { image: null as string | null, excerpt: '' }
+  }
+  const body = raw.replace(/^---[\s\S]*?---\s*/, '')
+  const img = body.match(/!\[[^\]]*\]\((\/images\/[^)\s"]+|https?:\/\/[^)\s"]+)/)
+  let excerpt = ''
+  for (const line of body.split(/\r?\n/)) {
+    const t = line.trim()
+    if (!t || /^[#!>`<|-]/.test(t) || t.startsWith('```')) continue
+    excerpt = t.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/[`*_]/g, '')
+    break
+  }
+  if (excerpt.length > 160) excerpt = excerpt.slice(0, 157).trimEnd() + '…'
+  return { image: img ? img[1] : null, excerpt }
+}
+
+function cleanPath(relativePath: string) {
+  const p = relativePath
+    .replace(/\.md$/, '')
+    .replace(/\/\d{4}_/, '/')
+    .replace(/(^|\/)index$/, '$1')
+  return '/' + p
+}
+
 function listPosts(cat: string): { file: string; id: number; slug: string }[] {
   const dir = path.join(ROOT, cat)
   if (!fs.existsSync(dir)) return []
@@ -37,6 +73,11 @@ const DRAFTS = CATEGORIES.flatMap((cat) =>
     .map((p) => `${cat}/${p.file}`),
 )
 
+const REWRITES = buildRewrites()
+const REWRITE_TO_SOURCE: Record<string, string> = Object.fromEntries(
+  Object.entries(REWRITES).map(([src, dst]) => [dst, src]),
+)
+
 function redirectStub(target: string) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="https://blog.uhg.sg${target}"><meta http-equiv="refresh" content="0; url=${target}"><title>Redirecting…</title></head><body><p>Redirecting to <a href="${target}">${target}</a>…</p></body></html>`
 }
@@ -48,17 +89,45 @@ export default defineConfig({
   titleTemplate: ":title — uhg's corner",
   cleanUrls: true,
   srcExclude: DRAFTS,
-  rewrites: buildRewrites(),
+  rewrites: REWRITES,
 
+  // Global-only tags. Per-page title/description/OG/Twitter/canonical are
+  // injected in transformPageData() below so every page gets a unique card.
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
-    ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: "uhg's corner" }],
-    ['meta', { property: 'og:description', content: 'vulnerability research, exploits and CVEs, CTF writeups' }],
-    ['meta', { property: 'og:image', content: 'https://i.ibb.co/4pRxk6j/trashthumbsup-c-websitethumb.png' }],
-    ['meta', { property: 'og:url', content: 'https://blog.uhg.sg' }],
+    ['meta', { property: 'og:site_name', content: "uhg's corner" }],
   ],
+
+  transformPageData(pageData) {
+    const fm = pageData.frontmatter || {}
+    const rel = pageData.relativePath
+    const isPost = /^(blog|cve|writeup)\//.test(rel) && !rel.endsWith('index.md')
+    const isProject = rel.startsWith('project/') && !rel.endsWith('index.md')
+
+    const { image: firstImg, excerpt } = pageMeta(rel)
+    const title = fm.title || "uhg's corner"
+    const desc = fm.subtitle || fm.description || excerpt || DEFAULT_DESC
+    const url = SITE + cleanPath(rel)
+
+    let image = fm.image || (isProject ? fm.thumbnail : firstImg) || DEFAULT_IMAGE
+    if (typeof image === 'string' && image.startsWith('/')) image = SITE + image
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { name: 'description', content: desc }],
+      ['meta', { property: 'og:type', content: isPost || isProject ? 'article' : 'website' }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: desc }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: desc }],
+      ['meta', { name: 'twitter:image', content: image }],
+    )
+  },
 
   markdown: {
     theme: 'dracula',
