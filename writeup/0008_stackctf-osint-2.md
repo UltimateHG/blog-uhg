@@ -17,15 +17,15 @@ We were provided with 3 videos. They provide some crucial information that will 
 
 From the first video, at around 2 seconds, we get a clear view of the bus number, its terminal stop, its current stop (or rather, current neighbourhood district) as well as the fact that it's actually opposite an MRT station:
 
-![](/images/0008/1.png)
+![](/images/writeup/0008/1.png)
 
 From the second video, we can tell that 1) the stop is not close to the MRT (due to his caption) and 2) the stop has these 2 yellow pillars:
 
-![](/images/0008/2.png)
+![](/images/writeup/0008/2.png)
 
 From the last video, we get a good look at the place that the target was resting moments before his kidnapping. We see that there are benches in front of him, that he is under shelter at a void deck and also that there is some sort of commmunity garden further in front. We can tell this is as HDB flat:
 
-![](/images/0008/3.png)
+![](/images/writeup/0008/3.png)
 
 
 # Further Analysis
@@ -33,20 +33,20 @@ For non-Singaporeans reading this, HDB flats are basically government housing an
 
 We can first take a look at the route of bus 117. We know that the our target's journey on bus 117 started from Yishun Ave 2 from the first video, and he's heading towards Punggol Int as his direction. So we're left with these possible stops:
 
-![](/images/0008/4.png)
+![](/images/writeup/0008/4.png)
 
 Honestly, that's a lot of stops. But we just know that our target started his journey at a bus stop that was opposite the MRT station, so we can start looking from bus stop #59073, Opp Yishun Stn. We honestly just went into Google Street View and viewed the stops one by one, until we found a stop that looked like this:
 
-![](/images/0008/5.png)
+![](/images/writeup/0008/5.png)
 
 We spotted the yellow pillars, so we opened up this location in Google Maps to take a closer look:
 
-![](/images/0008/6.png)
+![](/images/writeup/0008/6.png)
 
 # Community Garden Triangulation
 Here we could see that this stop is right beside Block 870. This cluster of blocks seem to be missing Block 868, which is slightly weird (we found out Yishun didn't have a Block 869). Let's open up NParks's site again and Ctrl+F this general location:
 
-![](/images/0008/7.png)
+![](/images/writeup/0008/7.png)
 
 We can see that there's a community garden very close to the bus stop at Block 868. We can safely assume that the unlabelled block on the map is in fact Block 868. So we now have most of the information needed:
 
@@ -55,15 +55,15 @@ We can see that there's a community garden very close to the bus stop at Block 8
 
 It's quite interesting, because Google Maps actually allows Street View in this particular small area:
 
-![](/images/0008/8.png)
+![](/images/writeup/0008/8.png)
 
 So we drop in and look around, and eventually we find this:
 
-![](/images/0008/9.png)
+![](/images/writeup/0008/9.png)
 
 You see those benches there? They look exactly like the ones in the video right before our target was kidnapped. It is also facing the correct direction, so this means that he was exactly under this block at this part of the void deck. We simply just panned the camera around, and:
 
-![](/images/0008/10.png)
+![](/images/writeup/0008/10.png)
 
 He was at the void deck of Block 870. We googled for the postal code of Block 870 and it turned out to be 760870, and thus we inputted the flag `govtech-csg{760870}`, and the challenge was solved.
 

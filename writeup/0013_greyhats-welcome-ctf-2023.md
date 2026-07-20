@@ -77,14 +77,14 @@ print("Flag: "+r.recvline())
 r.close()
 ```
 
-![](/images/0014/scissorspaperpwn1.png)
+![](/images/writeup/0013/scissorspaperpwn1.png)
 
 
 Flag: `greyhats{Game_hacker_in_the_making?}`
 
 Sweet and simple, the purest form of pwn. Have a picture of a cute cat as a bonus :)
 
-![](/images/0014/image-78260-800.jpg)
+![](/images/writeup/0013/image-78260-800.jpg)
 
 # Complete Me 🍼 | 19 solves 460 pts
 This challenge was interesting but also pretty easy to tackle. Similarly, the source code and an ELF has been provided:
@@ -144,7 +144,7 @@ syscall
 
 Either way, we input our shellcode and we pop a shell, after which we can simply `cat flag.txt` and bring it home.
 
-![](/images/0014/completeme1.png)
+![](/images/writeup/0013/completeme1.png)
 
 
 Flag: `greyhats{y0u_4r3_4n_4553mb1y_pr0}`
@@ -176,11 +176,11 @@ We can see that the vulnerable function here is aptly named `vulnerable_function
 
 The first step usually to any format string is I'd try to check how far down the stack my input variables are being stored. We first do a simple input to find out more about our leakable stack:
 
-![](/images/0014/fsa1.png)
+![](/images/writeup/0013/fsa1.png)
 
 We can see that starting from the 6th item it is already regurgitating what we're passing to it. Let's clean it up a bit as a mini proof-of-concept:
 
-![](/images/0014/fsa2.png)
+![](/images/writeup/0013/fsa2.png)
 
 Perfect. Now all we need to do is to grab the flag address that is given to us, feed it to the app and let format string bring home the flag for us.
 ```py
@@ -199,7 +199,7 @@ r.recvuntil("greyhats")
 print("Flag: greyhats"+r.recvline())
 ```
 
-![](/images/0014/fsa3.png)
+![](/images/writeup/0013/fsa3.png)
 
 
 Flag: `greyhats{f0rmAt_5trin9_vuln3rabi1ities_4r3_d4ngerous}`
@@ -270,12 +270,12 @@ printf("Goodbye %s!\n", name);
 ```
 Nice, let's try something on the challenge host first.
 
-![](/images/0014/filelen1.png)
+![](/images/writeup/0013/filelen1.png)
 
 Ok so we can dump `flag.txt` onto the heap. Since the variable `size` is passed to `read()`, we will just input, say, 100. And then we will pass an input with terminating nullbyte, and let the `printf()` sled run its way through.
 This is also explained quite well by [Naetw's](https://github.com/Naetw/CTF-pwn-tips) amazing cheatsheet on pwn challenges:
 
-![](/images/0014/filelen2.png)
+![](/images/writeup/0013/filelen2.png)
 
 Ok let's try out our concept:
 ```py
@@ -289,7 +289,7 @@ r.recvuntil("Goodbye a")
 print("Flag: g"+r.recvline())
 ```
 
-![](/images/0014/filelen3.png)
+![](/images/writeup/0013/filelen3.png)
 
 
 And there's our flag.
@@ -299,23 +299,23 @@ Flag: `greyhats{th3_fl4g_w4s_fr33_bu7_y0u_br0ught_1t_b4ck_bY_h34p_r3us3!}`
 # Where GOT shell? | 11 solves 488 pts
 From the name, I kinda assumed that it was a GOT table rewrite. This time round only the binary is provided to us, the source code isn't provided. Let's run the program to see what it does:
 
-![](/images/0014/wheregotshell1.png)
+![](/images/writeup/0013/wheregotshell1.png)
 
 Ok this program seems to just take whatever address we pass it and directly write to said address. We can run a quick `checksec` on the binary to see if it has any protections.
 
-![](/images/0014/wheregotshell2.png)
+![](/images/writeup/0013/wheregotshell2.png)
 
 Partial RELRO, no canary, no PIE. That means that whatever addresses that I get, I get to use. Nice. Since this already set itself up as a GOT rewrite, I'm looking out for the function that I can overwrite as well as the function that I will overwrite with. Let's fire up IDA.
 
-![](/images/0014/wheregotshell3.png)
+![](/images/writeup/0013/wheregotshell3.png)
 
 Roughly we can see that the program basically runs `scanf()` for `%lx`, `scanf()` for `%lx` again, then write the second input into the first input address. Pretty straight forward. Let's look at the function table.
 
-![](/images/0014/wheregotshell4.png)
+![](/images/writeup/0013/wheregotshell4.png)
 
 There is a `win()` function at `0x401176`. The `win()` function will give us the flag:
 
-![](/images/0014/wheregotshell5.png)
+![](/images/writeup/0013/wheregotshell5.png)
 
 Ok. Now we have the pieces in place. We can see earlier in the `main()` function that a final `puts("Okay, exiting now...\n");` is called at the end before the program exits. This means theoretically we could use the 2 inputs to overwrite `puts()` in the GOT with the address of `win()`, then as the program exits, `win()` would be called. Let's try out our theory:
 ```py
@@ -342,7 +342,7 @@ r.close()
 
 We run our code and voila,
 
-![](/images/0014/wheregotshell6.png)
+![](/images/writeup/0013/wheregotshell6.png)
 
 
 We obtained the flag.
@@ -394,27 +394,27 @@ Now this is interesting. As we saw above, `MAXSZ` is defined as 100, which **is 
 
 I wanted to test a proof of concept, so I entered an incredibly big number (16 digts) `9999999999999999` into the array and called the `sort()` function. When I looked at index 99 of the array afterwards, sure enough:
 
-![](/images/0014/mew1.png)
+![](/images/writeup/0013/mew1.png)
 
 But what is this mysterious value that I managed to obtain? If we convert the number to base 16, we get the following "number" `7ffee0b67d68`. Now this looks suspiciously like a pointer to a function to me, so I fired up gef to play around. This is what happens if we do the above and then select "Statistics" on the calculator, which would make a call to `running_mean`.
 
-![](/images/0014/mew2.png)
+![](/images/writeup/0013/mew2.png)
 
 A segfault in the application occurs. It seems like the location that I overwrote at `*arr+100` was affecting program execution when it tried to `mov rcx, QWORD PTR[rax]` after calling `running_mean()`. This is interesting because we can show the registers at this point of time:
 
-![](/images/0014/mew3.png)
+![](/images/writeup/0013/mew3.png)
 
 When we convert the address of the `rax` register to decimal, we get back `9999999999999999`, which was the number we inputted! This means that our concept worked and sorting the array with a value larger than `7ffee0b67d68` would replace `7ffee0b67d68` with our desired pointer. I then tried to see what would happen if I just passed along the address of `win()`, which we can find with `disassem win` in gdb.
 
-![](/images/0014/mew4.png)
+![](/images/writeup/0013/mew4.png)
 
 We convert `0x5555555553f4` (at the very beginning of the `system()` call where `/bin/sh` is first loaded into a register) to decimal to get `93824992236532`, and we replace our input with this to see if it does anything.
 
-![](/images/0014/mew5.png)
+![](/images/writeup/0013/mew5.png)
 
 Another segfault. This time the address changed. It's trying to access the address `0x5555aaaab22a`. Hmm, at this point I was thinking it could be an offset issue. So I found the offset between the 2 pointers which in this case was `0x55555e36`, and then I subtracted this offset from my input address. This gave me a new input value of `93823560578494`. I then substituted this value and tested again.
 
-![](/images/0014/mew6.png)
+![](/images/writeup/0013/mew6.png)
 
 I spawned shell! Now all that I need to do is to clean up the process and try it on the host machine. I would access shell then simply `cat flag.txt` for the flag.
 ```py
@@ -443,7 +443,7 @@ r.close()
 
 And just as expected
 
-![](/images/0014/mew7.png)
+![](/images/writeup/0013/mew7.png)
 
 
 The flag is in front of us.

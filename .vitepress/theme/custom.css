@@ -236,6 +236,54 @@ a { color: inherit; }
 
 .post-content img { display: block; max-width: 100%; height: auto; margin: 18px 0; border: 1px solid var(--border-dim); }
 
+/* ---------- video embeds (<VideoEmbed>) ---------- */
+/* Borders/spacing deliberately mirror .post-content img so a video sits in the
+   flow exactly like a screenshot does. */
+.video-embed { margin: 18px 0; padding: 0; }
+
+/* Wrapper holds the aspect ratio so the iframe reserves space before load
+   (no layout shift). --ctp-crust reads as a neutral letterbox in both themes. */
+.video-embed-frame {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border-dim);
+  background: var(--ctp-crust);
+}
+.video-embed-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Local files keep their intrinsic ratio — no wrapper needed. */
+.video-embed-player {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border-dim);
+  background: var(--ctp-crust);
+}
+
+.video-embed-caption {
+  font-size: 13px;
+  color: var(--meta);
+  margin: 8px 0 0;
+  line-height: 160%;
+}
+
+.video-embed-fallback {
+  font-size: 14px;
+  color: var(--meta);
+  border: 1px dashed var(--border-dim);
+  padding: 10px 12px;
+  margin: 0;
+  word-break: break-all;
+}
+
 .post-content blockquote {
   border-left: 3px solid var(--blockquote-border);
   padding-left: 15px;
